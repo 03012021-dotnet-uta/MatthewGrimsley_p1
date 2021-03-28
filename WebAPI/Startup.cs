@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using Repository.Models;
 
 namespace WebAPI
 {
@@ -26,6 +29,12 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // add the Db context
+            // services.AddDbContext<memeSaverContext>();
+            services.AddDbContext<TheStore_DbContext>(options =>
+            {
+                options.UseSqlServer("Server=.\\SQLEXPRESS;Database=TheStore_Db;Trusted_Connection=True;");
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -44,7 +53,18 @@ namespace WebAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
             }
 
+            // Enables default text-only handlers for common error status codes
+            app.UseStatusCodePages();
+
             app.UseHttpsRedirection();
+
+            // Redirects unknown paths to the index HTML
+            app.UseRewriter(new RewriteOptions()
+                .AddRedirect("^$", "index.html"));
+
+            // Enables static files to be served
+            // The default directory is {content root}/wwwroot
+            app.UseStaticFiles();
 
             app.UseRouting();
 
