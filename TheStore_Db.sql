@@ -13,9 +13,12 @@ CREATE TABLE parts(
 	part_number int PRIMARY KEY IDENTITY(42000, 1),
 	part_name varchar(50) NOT NULL,
 	part_description varchar(300),
-	price smallmoney NOT NULL,
+	unit_price smallmoney NOT NULL,
+	unit_of_measure varchar(10),
 	sale_percent numeric(5,3) DEFAULT(0.00),
-	image_link varchar(300)
+	image_link varchar(300),
+	image_credit varchar(100),
+	CONSTRAINT measurement_units CHECK( unit_of_measure IN ('g', 'kg', 'oz', 'lb'))
 );
 
 CREATE TABLE stores(
@@ -34,6 +37,10 @@ CREATE TABLE accounts(
 	last_name varchar(50),
 	email varchar(50),
 	phone_number numeric(14,0),
+	city varchar(50),
+	state_name varchar(50) FOREIGN KEY REFERENCES states(state_name),
+	zip_code numeric(5),
+	street_address varchar(100),
 	permissions tinyint NOT NULL,
 	salt char(64) NOT NULL,
 	hash char(64) NOT NULL,
@@ -59,10 +66,11 @@ CREATE TABLE orders(
 	date_time datetime
 );
 
-CREATE TABLE orders_parts(
+CREATE TABLE parts_in_orders(
 	order_number int,
 	part_number int,
 	unit_price smallmoney,
+	unit_of_measure varchar(10),
 	quantity int,
 	CONSTRAINT order_part_pk PRIMARY KEY(order_number, part_number),
 	FOREIGN KEY(order_number) REFERENCES orders(order_number),
