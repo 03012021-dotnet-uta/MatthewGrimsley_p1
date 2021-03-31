@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
+using Repository;
+using BusinessLogic;
 
 namespace WebAPI
 {
@@ -29,13 +31,20 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // add the Db context
-            // services.AddDbContext<memeSaverContext>();
+            // Register the configured Db context as a service
             services.AddDbContext<TheStore_DbContext>(options =>
             {
                 options.UseSqlServer("Server=.\\SQLEXPRESS;Database=TheStore_Db;Trusted_Connection=True;");
             });
 
+            // Register all business logic classes as services
+            services.AddScoped<StoreMethods>();
+            services.AddScoped<UserMethods>();
+
+            // Register the repository class as a service
+            services.AddScoped<TheStoreRepo>();
+
+            // Register the WebAPI controllers as services
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

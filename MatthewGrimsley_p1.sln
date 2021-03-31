@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{9A48DEEA-C306-4EA0-9DDA-83CC780E34DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{5635F52D-3580-4FD5-95F5-604C499ECEAA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{204FF8B8-EDA2-41A7-A50F-D5CE96EFDE7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalModels", "UniversalModels\UniversalModels.csproj", "{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,5 +86,17 @@ Global
 		{204FF8B8-EDA2-41A7-A50F-D5CE96EFDE7D}.Release|x64.Build.0 = Release|Any CPU
 		{204FF8B8-EDA2-41A7-A50F-D5CE96EFDE7D}.Release|x86.ActiveCfg = Release|Any CPU
 		{204FF8B8-EDA2-41A7-A50F-D5CE96EFDE7D}.Release|x86.Build.0 = Release|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Debug|x64.Build.0 = Debug|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Debug|x86.Build.0 = Debug|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Release|x64.ActiveCfg = Release|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Release|x64.Build.0 = Release|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Release|x86.ActiveCfg = Release|Any CPU
+		{6488DDC2-6A9B-4F56-9A0A-5DEDA3FD64D1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

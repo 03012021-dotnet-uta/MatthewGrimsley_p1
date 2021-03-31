@@ -1,0 +1,21 @@
+.bubble {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    max-width: 40em;
+    transform: translate(-50%, -50%);
+    background-color:powderblue;
+    border-radius: 1em;
+}
+
+.form {
+    display: block;
+    margin: auto;
+    padding: 3em 0em;
+
+}
+
+#submit_button {
+    cursor: pointer;
+}
