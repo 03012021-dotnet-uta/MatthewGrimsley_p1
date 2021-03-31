@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Repository.Models;
 
@@ -20,6 +21,10 @@ namespace Repository
         public Account GetAccount(string username)
         {
             return _dbContext.Accounts.Where(a => a.Username == username).FirstOrDefault<Account>();
+        }
+        public List<State> GetStates()
+        {
+            return _dbContext.States.ToList();
         }
     }
 }

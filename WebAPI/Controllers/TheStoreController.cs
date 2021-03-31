@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using BusinessLogic;
 using UniversalModels;
 using Microsoft.AspNetCore.Mvc;
-using Repository;
 
 namespace WebAPI.Controllers
 {
@@ -45,6 +44,41 @@ namespace WebAPI.Controllers
                 return StatusCode(401);
             }
             return loginToken;
+        }
+
+        [HttpGet("states")]
+        public ActionResult<List<State>> States()
+        {
+            if(!ModelState.IsValid)
+            {
+                return StatusCode(400);
+            }
+
+            // ;
+            List<State> states = _userMethods.GetStates();
+
+            if(states == null || states.Count == 0)
+            {
+                return StatusCode(404);
+            }
+            return states;
+        }
+
+        [HttpPost("newaccount")]
+        public ActionResult CreateAccount()
+        {
+            if(!ModelState.IsValid)
+            {
+                return StatusCode(400);
+            }
+
+            List<State> states = _userMethods.GetStates();
+
+            if(states == null || states.Count == 0)
+            {
+                return StatusCode(404);
+            }
+            return states;
         }
     }
 }

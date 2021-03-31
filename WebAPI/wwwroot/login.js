@@ -34,9 +34,9 @@ function login() {
     })
     .then(responseJSON => {
         // Create Session Cookies
-        document.cookie = `username=${responseJSON.username}`;
-        document.cookie = `token=${responseJSON.token}`;
-        document.cookie = `permissions=${responseJSON.permissions}`;
+        document.cookie = `username=${responseJSON.username};Samesite=strict;Max-age=86400`;
+        document.cookie = `token=${responseJSON.token};Samesite=strict;Max-age=86400`;
+        document.cookie = `permissions=${responseJSON.permissions};Samesite=strict;Max-age=86400`;
 
         // Redirect to appropriate page
         switch (responseJSON.permissions) {
@@ -52,24 +52,27 @@ function login() {
                 break;
         }
     })
-    .catch(error => {
-        console.log(error);
-        switch (error.message) {
-            case '400':
-                console.log("Login failure, request malformed!")
-            case '401':
-                console.log("Login failure, password incorrect")
-                alert("username/password invalid!")
-                break;
-            case '404':
-                console.log("Login failure, username not found.")
-                alert("username/password invalid!")
-                break;
-            default:
-                console.log("Unknown login error!");
-        }
-        clearFields();
-    })
+    .catch(handleError)
+}
+
+function handleError(error)
+{
+    console.log(error);
+    switch (error.message) {
+        case '400':
+            console.log("Login failure, request malformed!");
+        case '401':
+            console.log("Login failure, password incorrect");
+            alert("username/password invalid!");
+            break;
+        case '404':
+            console.log("Login failure, username not found.");
+            alert("username/password invalid!");
+            break;
+        default:
+            console.log("Unknown login error!");
+    }
+    clearFields();
 }
 
 function getUsername() {

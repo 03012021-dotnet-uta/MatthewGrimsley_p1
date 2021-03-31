@@ -18,6 +18,5 @@ namespace UniversalModels
         public string StreetAddress { get; set; }
         public string Salt { get; set; }
         public string Hash { get; set; }
-        public string DefaultStore { get; set; }
     }
 }

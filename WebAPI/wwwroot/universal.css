@@ -3,3 +3,18 @@ body {
     font-family: fantasy;
     font-weight: 300;
 }
+
+.button {
+    font-size: 1.5em;
+    border-radius: 0.5em;
+    padding: 1em;
+    text-align: center;
+    align-self: stretch;
+    cursor: pointer;
+    margin: auto;
+    background-color: #AAAAAA;
+}
+
+.button:hover {
+    background-color: #DDDDDD;
+}

@@ -23,7 +23,6 @@ namespace BusinessLogic
         /// <returns></returns>
         public LoginToken LogIn(LoginData loginData)
         {
-            Console.WriteLine(loginData.username);
             Account userAccount = _repo.GetAccount(loginData.username);
             LoginToken lt;
             if(userAccount == null)
@@ -39,8 +38,17 @@ namespace BusinessLogic
             return lt;
         }
 
+        public List<UniversalModels.State> GetStates()
+        {
+            List<Repository.Models.State> repoStateList = _repo.GetStates();
+            List<UniversalModels.State> umStateList = new List<UniversalModels.State>();
 
-
-
+            foreach (var repoState in repoStateList)
+            {
+                UniversalModels.State umState = new UniversalModels.State(repoState.StateName, repoState.Abbreviation, repoState.TaxPercent);
+                umStateList.Add(umState);
+            }
+            return umStateList;
+        }
     }
 }
