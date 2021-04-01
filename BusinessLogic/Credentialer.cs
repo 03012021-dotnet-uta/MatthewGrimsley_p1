@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace BusinessLogic
 {
-    public static class Credentialer
+    internal static class Credentialer
     {
         private static Dictionary<string /* Token */, string /* Username */> _activeUsers = new Dictionary<string, string>();
 
@@ -15,7 +15,7 @@ namespace BusinessLogic
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static string GetUsernameFromToken(string token)
+        internal static string GetUsernameFromToken(string token)
         {
             if(_activeUsers.ContainsKey(token))
             {
@@ -30,7 +30,7 @@ namespace BusinessLogic
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        public static string LogInUser(string username)
+        internal static string LogInUser(string username)
         {
             // If the username is already in the _activeUsers, delete it
             foreach (var item in _activeUsers.Where(e => e.Value == username))
@@ -42,6 +42,16 @@ namespace BusinessLogic
             _activeUsers.Add(token, username);
             return token;
         }
-    }
 
+        /// <summary>
+        /// Removes the token and associated username from the list of active users.
+        /// Returns true if successful; returns false if the token was not found.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        internal static bool LogOut(string token)
+        {
+            return _activeUsers.Remove(token);
+        }
+    }
 }

@@ -11,12 +11,14 @@ namespace UniversalModels
         public string Username { get; set; }
         public string Token { get; set; }
         public int Permissions { get; set; }
+        public int DefaultStore { get; set; }
 
-        public LoginToken(string username, string token, int permissions)
+        public LoginToken(string username, string token, int permissions, int defaultStore)
         {
             Username = username;
             Token = token;
             Permissions = permissions;
+            DefaultStore = defaultStore;
         }
     }
 }

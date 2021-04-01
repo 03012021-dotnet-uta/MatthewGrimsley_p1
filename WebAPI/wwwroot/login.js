@@ -33,19 +33,23 @@ function login() {
         }
     })
     .then(responseJSON => {
-        // Create Session Cookies
-        document.cookie = `username=${responseJSON.username};Samesite=strict;Max-age=86400`;
-        document.cookie = `token=${responseJSON.token};Samesite=strict;Max-age=86400`;
-        document.cookie = `permissions=${responseJSON.permissions};Samesite=strict;Max-age=86400`;
-
+        logIn(responseJSON.username, responseJSON.token, responseJSON.permissions, responseJSON.defaultStore);
         // Redirect to appropriate page
         switch (responseJSON.permissions) {
             case 1:
-                location = 'selectstore.html'
+                if(responseJSON.defaultStore == 0)
+                {
+                    location = 'selectstore.html';
+                }
+                else
+                {
+                    location = 'fruitestand.html';
+                }
+                
                 break;
             case 2:
             case 3:
-                location = 'storemenu.html'
+                location = 'storemenu.html';
                 break;
             default:
                 console.log(`Invalid user permissions level = ${responseJSON.permissions}`);

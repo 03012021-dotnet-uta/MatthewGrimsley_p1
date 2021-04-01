@@ -5,22 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="universal.js"></script>
     <link rel="stylesheet" href="universal.css">
     <link rel="stylesheet" href="createaccount.css">
 </head>
 <body>
     <h1>Create An Account</h1>
-    <label>Username:<input id='username_input' type='text'></label>
-    <label>First Name:<input id='firstname_input' type='text'></label><br>
-    <label>Last Name:<input id='lastname_input' type='text'></label>
-    <label>Email:<input id='email_input' type='email'></label><br>
-    <label>Phone Number:<input id='phonenumber_input' type='tel'></label>
-    <label>City:<input id='city_input' type='text'></label><br>
-    <label>State:<select id='state_input'></label>
-    <label>Zip Code:<input id='zipcode_input' type='number' min='500' max='99999'></label><br>
-    <label>Street Address:<input id='streetaddress_input' type='text'></label>
+    <label>Username:<input id='username_input' type='text' required></label>
+    <label>Email:<input id='email_input' type='email' required></label><br>
+    <label>First Name:<input id='firstname_input' type='text' required></label>
+    <label>Last Name:<input id='lastname_input' type='text' required></label><br>
+    <label>Phone Number:<input id='phonenumber_input' type='tel' required></label>
+    <label>City:<input id='city_input' type='text' required></label><br>
+    <label>State:<select id='state_input'></select></label>
+    <label>Zip Code:<input id='zipcode_input' type='number' min='500' max='99999' required></label><br>
+    <label>Street Address:<input id='streetaddress_input' type='text' required></label><br><br>
 
-    <div id='submitButton' class='button'>Create Account</div>
+    <span id='backButton' class='button'>Log In</span><span id='submitButton' class='button'>Create Account</span>
     <script src="createaccount.js"></script>
 </body>
 </html>

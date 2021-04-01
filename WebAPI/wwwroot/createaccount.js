@@ -44,14 +44,10 @@ fetch('thestore/states')
 
 async function createAccount()
 {
-    let newaccountdata;
+    let newaccountdata = new Object();
 
     // Validate the Account Information
     let username = usernameInput.value;
-    if(!usernameInput.reportValidity())
-    {
-        return;
-    }
     if(typeof username != 'string')
     {
         usernameInput.setCustomValidity('Please enter a valid username');
@@ -62,15 +58,12 @@ async function createAccount()
     {
         usernameInput.setCustomValidity('Username must be atleast 6 characters');
         usernameInput.reportValidity();
+        usernameInput.setCustomValidity();
         return;
     }
     newaccountdata.username = username;
 
     let firstname = firstNameInput.value;
-    if(!firstNameInput.reportValidity())
-    {
-        return;
-    }
     if(typeof firstname != 'string' || firstname.length == 0)
     {
         firstNameInput.setCustomValidity('Please enter your personal name');
@@ -80,10 +73,6 @@ async function createAccount()
     newaccountdata.firstname = firstname;
 
     let lastname = lastNameInput.value;
-    if(!lastNameInput.reportValidity())
-    {
-        return;
-    }
     if(typeof lastname != 'string' || lastname.length == 0)
     {
         lastNameInput.setCustomValidity('Please enter your family name');
@@ -97,32 +86,16 @@ async function createAccount()
     {
         return;
     }
-    if(typeof email != 'string' || email.length == 0)
-    {
-        emailInput.setCustomValidity('Please enter your email address');
-        emailInput.reportValidity();
-        return;
-    }
     newaccountdata.email = email;
 
-    let phonenumber = phoneNumberInput.value;
+    let phonenumber = parseInt(phoneNumberInput.value);
     if(!phoneNumberInput.reportValidity())
     {
-        return;
-    }
-    if(typeof phonenumber != 'number')
-    {
-        phoneNumberInput.setCustomValidity('Please enter your phone number');
-        phoneNumberInput.reportValidity();
         return;
     }
     newaccountdata.phonenumber = phonenumber;
 
     let city = cityInput.value;
-    if(!cityInput.reportValidity())
-    {
-        return;
-    }
     if(typeof city != 'string' || city.length < 2)
     {
         cityInput.setCustomValidity('Please enter your city');
@@ -138,7 +111,7 @@ async function createAccount()
     }
     newaccountdata.state = state;
 
-    let zipcode = zipInput.value;
+    let zipcode = parseInt(zipInput.value);
     if(!zipInput.reportValidity())
     {
         return;
@@ -150,12 +123,6 @@ async function createAccount()
     {
         return;
     }
-    if(typeof streetaddress != 'string' || streetaddress.length == 0)
-    {
-        addressInput.setCustomValidity('Please enter your family name');
-        addressInput.reportValidity();
-        return;
-    }
     newaccountdata.streetaddress = streetaddress;
 
     newaccountdata.salt = "temporary";
@@ -164,7 +131,10 @@ async function createAccount()
     // Send the request to create a new account
     fetch('thestore/newaccount', {
         method: 'POST',
-        body: JSON.stringify(newaccountdata)
+        headers: {
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify(newaccountdata)
     })
     .then(response => {
         if(!response.ok)

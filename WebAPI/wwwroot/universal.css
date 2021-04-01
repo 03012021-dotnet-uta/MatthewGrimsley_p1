@@ -1,20 +1,90 @@
+/* COLOUR PALETTE
+    Peach Puff: FFDAB9
+    Baby Blue Eyes: B0D7FF
+    Rose Madder: DA2C38
+    Bottle Green: 226F54
+    Space Cadet: 22223B
+*/
+
 body {
+    text-align: center;
     background-color: peachpuff;
     font-family: fantasy;
     font-weight: 300;
+    color: #000000;
 }
 
 .button {
-    font-size: 1.5em;
     border-radius: 0.5em;
-    padding: 1em;
+    padding: 0em 1em;
     text-align: center;
     align-self: stretch;
     cursor: pointer;
     margin: auto;
-    background-color: #AAAAAA;
+    background-color: #B0D7FF;
 }
 
 .button:hover {
-    background-color: #DDDDDD;
+    background-color: #D0F7FF;
+}
+
+.vertical_spacer {
+    margin: auto;
+    padding: 1em 0em;
+}
+
+.vertical_spacer_half {
+    margin: auto;
+    padding: 0.5em 0em;
+}
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+.pad_right {
+    padding-right: 0.5em;
+}
+
+.pad_left {
+    padding-left: 0.5em;
+}
+
+ul.topbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #FFDAB9;
+    background-color: #226F54;
+}
+
+li.topbar.left {
+    float: left;
+}
+
+li.topbar.right {
+    float: right;
+}
+
+li.topbar a:not(.active) {
+    display: block;
+    color: #FFDAB9;
+    text-align: center;
+    padding: 1em;
+    text-decoration: none;
+}
+
+li.topbar a.active {
+    color: #226F54;
+    background-color: #FFDAB9;
+}
+
+li.topbar a:hover:not(.active) {
+    color: #226F54;
+    background-color: #B0D7FF;
 }
