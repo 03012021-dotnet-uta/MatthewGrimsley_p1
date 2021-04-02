@@ -1,0 +1,25 @@
+.flex_item {
+    display: flex;
+    margin: auto;
+    flex-flow: row wrap;
+    align-items: left;
+}
+
+.border {
+    border: 0.3em solid #B0D7FF;
+}
+
+.flex_item img {
+    width: 300px;
+}
+
+.info {
+    margin: auto;
+    min-width: 20em;
+    display: inline;
+    box-sizing: border-box;
+}
+
+.quantity {
+    max-width: 4em;
+}

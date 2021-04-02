@@ -98,17 +98,30 @@ namespace BusinessLogic
             return umStoreList;
         }
 
-        public List<Product> GetProducts()
+        public List<Product> GetStoreInventory(int storeNumber)
         {
             List<Repository.Models.Part> repoProductList = _repo.GetProducts();
             List<UniversalModels.Product> umProductList = new List<UniversalModels.Product>();
 
+            List<Repository.Models.Inventory> storeInventory = _repo.GetStoreInventory(storeNumber);
+
             foreach (var repoProduct in repoProductList)
             {
+                int quantity = 0;
+                var inventory = storeInventory.Find(i => i.PartNumber == repoProduct.PartNumber);
+                if(inventory != null)
+                {
+                    quantity = inventory.Quantity ?? default(int);
+                }
+                string description = repoProduct.PartDescription;
+                if(description == null)
+                {
+                    description = "";
+                }
                 decimal salePercent = repoProduct.SalePercent ?? default(decimal);
                 UniversalModels.Product umProduct = new UniversalModels.Product(repoProduct.PartNumber,
-                    repoProduct.PartName, repoProduct.PartDescription, repoProduct.UnitPrice,
-                    repoProduct.UnitOfMeasure, salePercent, repoProduct.ImageLink, repoProduct.ImageCredit);
+                    repoProduct.PartName, description, repoProduct.UnitPrice,
+                    repoProduct.UnitOfMeasure, salePercent, repoProduct.ImageLink, repoProduct.ImageCredit, quantity);
                 umProductList.Add(umProduct);
             }
             return umProductList;

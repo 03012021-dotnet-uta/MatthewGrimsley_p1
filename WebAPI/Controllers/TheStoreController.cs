@@ -103,24 +103,6 @@ namespace WebAPI.Controllers
             return states;
         }
 
-        [HttpGet("products")]
-        public ActionResult<List<Product>> Products()
-        {
-            if(!ModelState.IsValid)
-            {
-                return StatusCode(400);
-            }
-
-            List<Product> products = _userMethods.GetProducts();
-
-            if(products == null || products.Count == 0)
-            {
-                return StatusCode(404);
-            }
-            StatusCode(200);
-            return products;
-        }
-
         [HttpGet("stores")]
         public ActionResult<List<Store>> Stores()
         {
@@ -139,6 +121,12 @@ namespace WebAPI.Controllers
             return stores;
         }
 
+        /// <summary>
+        /// Returns a list of products that includes a field for the quantity available
+        /// at the specified store.
+        /// </summary>
+        /// <param name="storeNumber"></param>
+        /// <returns></returns>
         [HttpGet("store/{storeNumber}/inventory")]
         public ActionResult<List<Product>> GetStoreInventory(int storeNumber)
         {
@@ -147,7 +135,7 @@ namespace WebAPI.Controllers
                 return StatusCode(400);
             }
 
-            List<Product> products = _userMethods.GetProducts();
+            List<Product> products = _userMethods.GetStoreInventory(storeNumber);
 
             if(products == null || products.Count == 0)
             {

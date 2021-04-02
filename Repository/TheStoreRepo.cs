@@ -69,5 +69,10 @@ namespace Repository
             }
             return true;
         }
+
+        public List<Inventory> GetStoreInventory(int storeNumber)
+        {
+            return _dbContext.Inventories.Where(i => i.StoreNumber == storeNumber).ToList<Inventory>();
+        }
     }
 }
