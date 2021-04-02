@@ -51,6 +51,10 @@ namespace BusinessLogic
             return Credentialer.LogOut(token);
         }
 
+        /// <summary>
+        /// Returns a list of every state
+        /// </summary>
+        /// <returns></returns>
         public List<UniversalModels.State> GetStates()
         {
             List<Repository.Models.State> repoStateList = _repo.GetStates();
@@ -64,6 +68,11 @@ namespace BusinessLogic
             return umStateList;
         }
 
+        /// <summary>
+        /// Creates a user account, with Customer permissions. Returns true if successful
+        /// </summary>
+        /// <param name="newAccountData"></param>
+        /// <returns></returns>
         public bool CreateUserAccount(NewAccountData newAccountData)
         {
             Account newAccount = new Account();
@@ -83,21 +92,35 @@ namespace BusinessLogic
             return true;
         }
 
+        /// <summary>
+        /// Returns a list of every store.
+        /// </summary>
+        /// <returns></returns>
         public List<UniversalModels.Store> GetStores()
         {
             List<Repository.Models.Store> repoStoreList = _repo.GetStores();
             List<UniversalModels.Store> umStoreList = new List<UniversalModels.Store>();
+            
 
             foreach (var repoStore in repoStoreList)
             {
+                Repository.Models.State repoState = _repo.GetState(repoStore.StateName);
+                decimal taxPercent = repoState.TaxPercent;
+
                 decimal zipCode = repoStore.ZipCode ?? default(decimal);
-                UniversalModels.Store umState = new UniversalModels.Store(repoStore.StoreNumber,
-                    repoStore.StoreName, repoStore.City, repoStore.StateName, zipCode, repoStore.StreetAddress);
+                UniversalModels.Store umState = new UniversalModels.Store(repoStore.StoreNumber, repoStore.StoreName,
+                    repoStore.City, repoStore.StateName, zipCode, repoStore.StreetAddress, taxPercent);
                 umStoreList.Add(umState);
             }
             return umStoreList;
         }
 
+        /// <summary>
+        /// Returns a list of all available products with information on each, including
+        /// the available inventory at the specified store.
+        /// </summary>
+        /// <param name="storeNumber"></param>
+        /// <returns></returns>
         public List<Product> GetStoreInventory(int storeNumber)
         {
             List<Repository.Models.Part> repoProductList = _repo.GetProducts();
@@ -127,6 +150,13 @@ namespace BusinessLogic
             return umProductList;
         }
 
+        /// <summary>
+        /// Sets the users default store, after verifying the user credentials.
+        /// Returns true if successful, false otherwise.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="storeNumber"></param>
+        /// <returns></returns>
         public bool SetDefaultStore(string token, int storeNumber)
         {
             string username = Credentialer.GetUsernameFromToken(token);
@@ -141,6 +171,51 @@ namespace BusinessLogic
             }
             Console.WriteLine("SetDefaultStore() Failure, invalid store number!");
             return false;
+        }
+
+        /// <summary>
+        /// Creates an order and updates the store's inventory, after verifying
+        /// the user credentials.
+        /// Returns true if successful, false otherwise.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="cart"></param>
+        /// <returns></returns>
+        public bool CreateOrder(string token, Cart cart)
+        {
+            cart.SubTotal = Math.Truncate(1000 * cart.SubTotal) / 1000;
+            cart.Tax = Math.Truncate(1000 * cart.Tax) / 1000;
+            cart.Total = Math.Truncate(1000 * cart.Total) / 1000;
+
+            string username = Credentialer.GetUsernameFromToken(token);
+
+            DateTime time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            time = time.AddMilliseconds(cart.DateTime).ToLocalTime();
+            
+            Order order = new Order();
+            order.AccountNumber = _repo.GetAccount(username).AccountNumber;
+            order.StoreNumber = cart.StoreNumber;
+            order.Subtotal = cart.SubTotal;
+            order.Tax = cart.Tax;
+            order.TotalPrice = cart.Total;
+            order.DateTime = time;
+            int orderNumber = _repo.AddOrder(order);
+
+            foreach (var cartItem in cart.productList)
+            {
+                if(_repo.ReduceInventory(cart.StoreNumber, cartItem.PartNumber, cartItem.Quantity))
+                {
+                    PartsInOrder part = new PartsInOrder();
+                    part.OrderNumber = orderNumber;
+                    part.PartNumber = cartItem.PartNumber;
+                    part.UnitPrice = cartItem.UnitPrice;
+                    part.UnitOfMeasure = cartItem.UnitOfMeasure;
+                    part.Quantity = cartItem.Quantity;
+                    _repo.AddPartToOrder(part);
+                }
+            }
+            
+            return true;
         }
     }
 }

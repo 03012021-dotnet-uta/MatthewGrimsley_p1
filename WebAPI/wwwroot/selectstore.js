@@ -48,6 +48,7 @@ function addStoresToHTML(stores)
         let storeDiv = document.createElement("div");
         storeDiv.addEventListener("click", selectStore);
         storeDiv.storeNumber = store.number;
+        storeDiv.taxPercent = store.taxPercent;
         storeDiv.setAttribute("id", "store_div");
         storeDiv.setAttribute("class", "button");
         storeDiv.innerHTML += ` <span class="left pad_right spaced">${store.name}</span><span class="right pad_left spaced">${store.number}</span><br>
@@ -85,6 +86,7 @@ function selectStore(event)
     }
 
     setCookieValue('currentstore', target.storeNumber);
+    setCookieValue('taxRate', target.taxPercent);
     location = 'fruitestand.html';
 }
 

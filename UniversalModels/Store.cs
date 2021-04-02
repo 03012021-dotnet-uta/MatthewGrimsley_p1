@@ -8,8 +8,10 @@ namespace UniversalModels
         public string StateName { get; set; }
         public decimal? ZipCode { get; set; }
         public string StreetAddress { get; set; }
+        public decimal TaxPercent { get; set; }
         
-        public Store(int store_number, string name, string city, string stateName, decimal zipCode, string streetAddress)
+        public Store(int store_number, string name, string city, string stateName,
+            decimal zipCode, string streetAddress, decimal taxPercent)
         {
             Number = store_number;
             Name = name;
@@ -17,6 +19,7 @@ namespace UniversalModels
             StateName = stateName;
             ZipCode = zipCode;
             StreetAddress = streetAddress;
+            TaxPercent = taxPercent;
         }
     }
 }

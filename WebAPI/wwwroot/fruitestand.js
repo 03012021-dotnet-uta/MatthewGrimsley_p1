@@ -74,7 +74,6 @@ function addToCart(partNumber)
     let quantityElement = document.getElementById(`${partNumber}qty`);
 
     let quantity = parseInt(quantityElement.value);
-    console.log(quantity);
     if(!quantityElement.reportValidity())
     {
         console.log("Invalid quantity while adding to Cart")

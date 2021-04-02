@@ -21,6 +21,11 @@ namespace WebAPI.Controllers
             _storeMethods = storeMethods;
         }
 
+        /// <summary>
+        /// Attempts to sign in a user. Returns a session token if successful.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         [HttpGet("login/{username}")]
         public ActionResult<LoginToken> LogIn(String username)
         {
@@ -48,6 +53,10 @@ namespace WebAPI.Controllers
             return loginToken;
         }
 
+        /// <summary>
+        /// Signs out the user whose is identified by their token in the session cookies
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("logout")]
         public ActionResult LogOut()
         {
@@ -67,6 +76,11 @@ namespace WebAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new Customer account
+        /// </summary>
+        /// <param name="newAccountData"></param>
+        /// <returns></returns>
         [HttpPost("newaccount")]
         public ActionResult CreateAccount([FromBody] NewAccountData newAccountData)
         {
@@ -85,6 +99,10 @@ namespace WebAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns a list of every State object
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("states")]
         public ActionResult<List<State>> States()
         {
@@ -103,6 +121,10 @@ namespace WebAPI.Controllers
             return states;
         }
 
+        /// <summary>
+        /// Returns a list of every Store
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("stores")]
         public ActionResult<List<Store>> Stores()
         {
@@ -145,6 +167,11 @@ namespace WebAPI.Controllers
             return products;
         }
 
+        /// <summary>
+        /// Sets the default store for the user who is identified by the session cookies
+        /// </summary>
+        /// <param name="storeNumber"></param>
+        /// <returns></returns>
         [HttpPost("store/default/{storeNumber}")]
         public ActionResult SetDefaultStore(int storeNumber)
         {
@@ -161,6 +188,30 @@ namespace WebAPI.Controllers
                 return StatusCode(401);
             }
             return StatusCode(202);
+        }
+
+        /// <summary>
+        /// Places an order for the user who is identified by the session cookies.
+        /// Updates the store's inventory.
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <returns></returns>
+        [HttpPost("placeorder")]
+        public ActionResult PlaceOrder([FromBody] Cart cart)
+        {
+            if(!ModelState.IsValid)
+            {
+                return StatusCode(400);
+            }
+            string token = Request.Cookies["token"];
+            if(_userMethods.CreateOrder(token, cart))
+            {
+                return StatusCode(201);
+            }
+            else
+            {
+                return StatusCode(403);
+            }
         }
     }
 }
